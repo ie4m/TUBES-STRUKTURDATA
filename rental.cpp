@@ -1,18 +1,12 @@
 #include "rental.h"
 
-/* INIT */
 void initList(ListToko &LT, ListBarang &LB, ListRelasi &LR) {
-    LT.first = NULL;
-    LB.first = NULL;
-    LR.first = NULL;
+    LT.first = NULL; LB.first = NULL; LR.first = NULL;
 }
 
-/* ===== TOKO ===== */
 void insertToko(ListToko &LT, Toko T) {
     ElmToko *P = new ElmToko;
-    P->info = T;
-    P->next = LT.first;
-    LT.first = P;
+    P->info = T; P->next = LT.first; LT.first = P;
 }
 
 ElmToko* findToko(ListToko LT, int id) {
@@ -27,8 +21,7 @@ ElmToko* findToko(ListToko LT, int id) {
 void deleteToko(ListToko &LT, ListRelasi &LR, int id) {
     ElmToko *P = LT.first, *prev = NULL;
     while (P != NULL && P->info.idToko != id) {
-        prev = P;
-        P = P->next;
+        prev = P; P = P->next;
     }
     if (P != NULL) {
         if (prev == NULL) LT.first = P->next;
@@ -39,31 +32,21 @@ void deleteToko(ListToko &LT, ListRelasi &LR, int id) {
             if (R->toko == P) {
                 if (pr == NULL) LR.first = R->next;
                 else pr->next = R->next;
-                delete R;
-                R = (pr == NULL) ? LR.first : pr->next;
-            } else {
-                pr = R;
+                ElmRelasi *temp = R;
                 R = R->next;
+                delete temp;
+            } else {
+                pr = R; R = R->next;
             }
         }
         delete P;
+        cout << "Toko berhasil dihapus.\n";
     }
 }
 
-void showToko(ListToko LT) {
-    ElmToko *P = LT.first;
-    while (P != NULL) {
-        cout << "ID: " << P->info.idToko << " | Nama: " << P->info.nama << endl;
-        P = P->next;
-    }
-}
-
-/* ===== BARANG ===== */
 void insertBarang(ListBarang &LB, Barang B) {
     ElmBarang *P = new ElmBarang;
-    P->info = B;
-    P->next = LB.first;
-    LB.first = P;
+    P->info = B; P->next = LB.first; LB.first = P;
 }
 
 ElmBarang* findBarang(ListBarang LB, int id) {
@@ -78,8 +61,7 @@ ElmBarang* findBarang(ListBarang LB, int id) {
 void deleteBarang(ListBarang &LB, ListRelasi &LR, int id) {
     ElmBarang *P = LB.first, *prev = NULL;
     while (P != NULL && P->info.idBarang != id) {
-        prev = P;
-        P = P->next;
+        prev = P; P = P->next;
     }
     if (P != NULL) {
         if (prev == NULL) LB.first = P->next;
@@ -90,13 +72,14 @@ void deleteBarang(ListBarang &LB, ListRelasi &LR, int id) {
             if (R->barang == P) {
                 if (pr == NULL) LR.first = R->next;
                 else pr->next = R->next;
-                delete R;
-                R = (pr == NULL) ? LR.first : pr->next;
-            } else {
-                pr = R;
+                ElmRelasi *temp = R;
                 R = R->next;
+                delete temp;
+            } else {
+                pr = R; R = R->next;
             }
         }
         delete P;
+        cout << "Barang berhasil dihapus.\n";
     }
 }

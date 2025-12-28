@@ -2,9 +2,9 @@
 #define RENTAL_H
 
 #include <iostream>
+#include <string>
 using namespace std;
 
-/* ====== STRUCT DATA ====== */
 struct Toko {
     int idToko;
     string nama;
@@ -16,7 +16,6 @@ struct Barang {
     int harga;
 };
 
-/* ====== NODE ====== */
 struct ElmToko {
     Toko info;
     ElmToko *next;
@@ -33,35 +32,17 @@ struct ElmRelasi {
     ElmRelasi *next;
 };
 
-/* ====== LIST ====== */
-struct ListToko {
-    ElmToko *first;
-};
+struct ListToko { ElmToko *first; };
+struct ListBarang { ElmBarang *first; };
+struct ListRelasi { ElmRelasi *first; };
 
-struct ListBarang {
-    ElmBarang *first;
-};
-
-struct ListRelasi {
-    ElmRelasi *first;
-};
-
-/* ====== PROTOTYPE ====== */
 void initList(ListToko &LT, ListBarang &LB, ListRelasi &LR);
-
-/* TOKO */
 void insertToko(ListToko &LT, Toko T);
 ElmToko* findToko(ListToko LT, int id);
 void deleteToko(ListToko &LT, ListRelasi &LR, int id);
-void showToko(ListToko LT);
-
-/* BARANG */
 void insertBarang(ListBarang &LB, Barang B);
 ElmBarang* findBarang(ListBarang LB, int id);
 void deleteBarang(ListBarang &LB, ListRelasi &LR, int id);
-void showBarang(ListBarang LB);
-
-/* RELASI */
 void addRelasi(ListRelasi &LR, ElmToko *T, ElmBarang *B);
 void showAll(ListToko LT, ListRelasi LR);
 void showBarangByToko(ListRelasi LR, int idToko);
