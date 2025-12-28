@@ -83,3 +83,81 @@ void deleteBarang(ListBarang &LB, ListRelasi &LR, int id) {
         cout << "Barang berhasil dihapus.\n";
     }
 }
+
+void addRelasi(ListRelasi &LR, ElmToko *T, ElmBarang *B) {
+    if (T != NULL && B != NULL) {
+        ElmRelasi *R = new ElmRelasi;
+        R->toko = T; R->barang = B; R->next = LR.first; LR.first = R;
+        cout << "Relasi ditambahkan!\n";
+    } else {
+        cout << "ID Toko atau Barang tidak ditemukan!\n";
+    }
+}
+
+void showAll(ListToko LT, ListRelasi LR) {
+    ElmToko *T = LT.first;
+    if (T == NULL) cout << "Daftar Toko Kosong.\n";
+    while (T != NULL) {
+        cout << "\nToko: " << T->info.nama << " (ID: " << T->info.idToko << ")" << endl;
+        ElmRelasi *R = LR.first;
+        bool hasBarang = false;
+        while (R != NULL) {
+            if (R->toko == T) {
+                // TAMBAHKAN info.harga DI SINI
+                cout << "  - " << R->barang->info.nama 
+                     << " [ID: " << R->barang->info.idBarang 
+                     << "] | Harga: Rp" << R->barang->info.harga << endl;
+                hasBarang = true;
+            }
+            R = R->next;
+        }
+        if (!hasBarang) cout << "  (Belum ada barang sewa)\n";
+        T = T->next;
+    }
+}
+
+void showBarangByToko(ListRelasi LR, int idToko) {
+    ElmRelasi *R = LR.first;
+    bool found = false;
+    while (R != NULL) {
+        if (R->toko->info.idToko == idToko) {
+            cout << "- " << R->barang->info.nama << endl;
+            found = true;
+        }
+        R = R->next;
+    }
+    if (!found) cout << "Barang tidak ditemukan.\n";
+}
+
+void showTokoByBarang(ListRelasi LR, int idBarang) {
+    ElmRelasi *R = LR.first;
+    bool found = false;
+    while (R != NULL) {
+        if (R->barang->info.idBarang == idBarang) {
+            cout << "- " << R->toko->info.nama << endl;
+            found = true;
+        }
+        R = R->next;
+    }
+    if (!found) cout << "Toko tidak ditemukan.\n";
+}
+
+void tokoTerbanyakTersedikit(ListToko LT, ListRelasi LR) {
+    if (LT.first == NULL) return;
+    int maxVal = -1, minVal = 999999;
+    string maxT, minT;
+    ElmToko *T = LT.first;
+    while (T != NULL) {
+        int count = 0;
+        ElmRelasi *R = LR.first;
+        while (R != NULL) {
+            if (R->toko == T) count++;
+            R = R->next;
+        }
+        if (count > maxVal) { maxVal = count; maxT = T->info.nama; }
+        if (count < minVal) { minVal = count; minT = T->info.nama; }
+        T = T->next;
+    }
+    cout << "Toko Terbanyak: " << maxT << " (" << maxVal << " barang)\n";
+    cout << "Toko Tersedikit: " << minT << " (" << minVal << " barang)\n";
+}
